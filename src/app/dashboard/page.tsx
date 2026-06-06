@@ -357,7 +357,7 @@ export default function DashboardPage() {
         {/* Workers Tab */}
         {activeTab === "workers" && (
           <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h2 className="text-2xl font-bold text-[#1E3A5F]">Trabajadores</h2>
               <button
                 onClick={() => {
@@ -432,12 +432,12 @@ export default function DashboardPage() {
                         <input
                           type="text"
                           required
-                          placeholder="Ej: Carlos"
+                          placeholder="Ej: CARLOS"
                           value={workerForm.firstName}
                           onChange={(e) =>
-                            setWorkerForm({ ...workerForm, firstName: e.target.value })
+                            setWorkerForm({ ...workerForm, firstName: e.target.value.toUpperCase() })
                           }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm uppercase"
                         />
                       </div>
                       <div>
@@ -447,12 +447,12 @@ export default function DashboardPage() {
                         <input
                           type="text"
                           required
-                          placeholder="Ej: Alberto"
+                          placeholder="Ej: ALBERTO"
                           value={workerForm.secondName}
                           onChange={(e) =>
-                            setWorkerForm({ ...workerForm, secondName: e.target.value })
+                            setWorkerForm({ ...workerForm, secondName: e.target.value.toUpperCase() })
                           }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm uppercase"
                         />
                       </div>
                       <div>
@@ -462,12 +462,12 @@ export default function DashboardPage() {
                         <input
                           type="text"
                           required
-                          placeholder="Ej: Mendoza"
+                          placeholder="Ej: MENDOZA"
                           value={workerForm.firstLastName}
                           onChange={(e) =>
-                            setWorkerForm({ ...workerForm, firstLastName: e.target.value })
+                            setWorkerForm({ ...workerForm, firstLastName: e.target.value.toUpperCase() })
                           }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm uppercase"
                         />
                       </div>
                       <div>
@@ -477,12 +477,12 @@ export default function DashboardPage() {
                         <input
                           type="text"
                           required
-                          placeholder="Ej: López"
+                          placeholder="Ej: LÓPEZ"
                           value={workerForm.secondLastName}
                           onChange={(e) =>
-                            setWorkerForm({ ...workerForm, secondLastName: e.target.value })
+                            setWorkerForm({ ...workerForm, secondLastName: e.target.value.toUpperCase() })
                           }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm uppercase"
                         />
                       </div>
                     </div>
@@ -495,8 +495,8 @@ export default function DashboardPage() {
                         type="text"
                         required
                         value={workerForm.role}
-                        onChange={(e) => setWorkerForm({ ...workerForm, role: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => setWorkerForm({ ...workerForm, role: e.target.value.toUpperCase() })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 uppercase"
                       />
                     </div>
                     <div>
@@ -507,9 +507,9 @@ export default function DashboardPage() {
                         rows={3}
                         value={workerForm.description}
                         onChange={(e) =>
-                          setWorkerForm({ ...workerForm, description: e.target.value })
+                          setWorkerForm({ ...workerForm, description: e.target.value.toUpperCase() })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 uppercase"
                       />
                     </div>
                     <div className="flex gap-3">
@@ -605,7 +605,7 @@ export default function DashboardPage() {
         {/* Projects Tab */}
         {activeTab === "projects" && (
           <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h2 className="text-2xl font-bold text-[#1E3A5F]">Proyectos</h2>
               <button
                 onClick={() => {
