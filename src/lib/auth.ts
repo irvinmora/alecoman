@@ -4,5 +4,8 @@ const OWNER_CREDENTIALS = {
 };
 
 export function validateCredentials(username: string, password: string): boolean {
-  return username === OWNER_CREDENTIALS.username && password === OWNER_CREDENTIALS.password;
+  const cleanUser = username.trim();
+  const cleanPass = password.trim();
+  // Username is case‑insensitive; password remains case‑sensitive
+  return cleanUser.toLowerCase() === OWNER_CREDENTIALS.username.toLowerCase() && cleanPass === OWNER_CREDENTIALS.password;
 }
