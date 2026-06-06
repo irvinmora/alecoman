@@ -76,7 +76,7 @@ export default function QuienesSomosPage() {
             <div className="max-w-md mx-auto">
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                 <div className="relative h-64 bg-gray-200">
-                  <Image src={owner.photo} alt={owner.name} fill className="object-cover" />
+                  <Image src={owner.photo} alt={owner.name} fill sizes="(max-width: 448px) 100vw, 448px" className="object-cover" unoptimized />
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-[#1E3A5F]">{owner.name}</h3>
@@ -102,7 +102,7 @@ export default function QuienesSomosPage() {
                 className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
               >
                 <div className="relative h-48 bg-gray-200">
-                  <Image src={worker.photo} alt={worker.name} fill className="object-cover" />
+                  <Image src={worker.photo} alt={worker.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" unoptimized />
                 </div>
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-[#1E3A5F]">{worker.name}</h3>

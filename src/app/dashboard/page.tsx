@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -11,10 +11,10 @@ import {
   Edit,
   Upload,
   LogOut,
-  CheckCircle,
-  XCircle,
   Eye,
   EyeOff,
+  Camera,
+  ImageIcon,
 } from "lucide-react";
 
 interface Worker {
@@ -46,12 +46,18 @@ export default function DashboardPage() {
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingWorker, setEditingWorker] = useState<Worker | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [uploading, setUploading] = useState(false);
+
   const [workerForm, setWorkerForm] = useState({
-    name: "",
+    firstName: "",
+    secondName: "",
+    firstLastName: "",
+    secondLastName: "",
     role: "",
     description: "",
     photo: "/images/worker-placeholder.svg",
   });
+
   const [projectForm, setProjectForm] = useState({
     title: "",
     description: "",
@@ -59,6 +65,13 @@ export default function DashboardPage() {
     featured: false,
     images: ["/images/project-placeholder.svg"],
   });
+
+  const workerPhotoRef = useRef<HTMLInputElement>(null);
+  const projectImageRef = useRef<HTMLInputElement>(null);
+
+  // Preview state for selected images
+  const [workerPhotoPreview, setWorkerPhotoPreview] = useState<string | null>(null);
+  const [projectImagePreview, setProjectImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     const auth = localStorage.getItem("alecoman_auth");
@@ -81,25 +94,140 @@ export default function DashboardPage() {
     router.push("/login");
   };
 
+  const uploadFile = async (file: File): Promise<string | null> => {
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      if (res.ok) {
+        const data = await res.json();
+        return data.url;
+      } else {
+        const err = await res.json();
+        alert(err.error || "Error al subir imagen");
+        return null;
+      }
+    } catch {
+      alert("Error de conexión al subir imagen");
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleWorkerPhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Show preview immediately
+    const reader = new FileReader();
+    reader.onload = (ev) => setWorkerPhotoPreview(ev.target?.result as string);
+    reader.readAsDataURL(file);
+
+    const url = await uploadFile(file);
+    if (url) {
+      setWorkerForm((prev) => ({ ...prev, photo: url }));
+    }
+  };
+
+  const handleProjectImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => setProjectImagePreview(ev.target?.result as string);
+    reader.readAsDataURL(file);
+
+    const url = await uploadFile(file);
+    if (url) {
+      setProjectForm((prev) => ({ ...prev, images: [url] }));
+    }
+  };
+
+  const parseWorkerName = (fullName: string) => {
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length >= 4) {
+      return {
+        firstName: parts[0],
+        secondName: parts[1],
+        firstLastName: parts[2],
+        secondLastName: parts.slice(3).join(" "),
+      };
+    } else if (parts.length === 3) {
+      return {
+        firstName: parts[0],
+        secondName: "",
+        firstLastName: parts[1],
+        secondLastName: parts[2],
+      };
+    } else if (parts.length === 2) {
+      return {
+        firstName: parts[0],
+        secondName: "",
+        firstLastName: parts[1],
+        secondLastName: "",
+      };
+    }
+    return {
+      firstName: fullName,
+      secondName: "",
+      firstLastName: "",
+      secondLastName: "",
+    };
+  };
+
+  const buildWorkerName = () => {
+    return [
+      workerForm.firstName,
+      workerForm.secondName,
+      workerForm.firstLastName,
+      workerForm.secondLastName,
+    ]
+      .filter(Boolean)
+      .join(" ");
+  };
+
   const handleWorkerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const fullName = buildWorkerName();
+    const payload = {
+      name: fullName,
+      role: workerForm.role,
+      description: workerForm.description,
+      photo: workerForm.photo,
+    };
+
     if (editingWorker) {
       await fetch(`/api/workers?id=${editingWorker.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(workerForm),
+        body: JSON.stringify(payload),
       });
     } else {
       await fetch("/api/workers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(workerForm),
+        body: JSON.stringify(payload),
       });
     }
+    resetWorkerForm();
+    fetchData();
+  };
+
+  const resetWorkerForm = () => {
     setShowWorkerForm(false);
     setEditingWorker(null);
-    setWorkerForm({ name: "", role: "", description: "", photo: "/images/worker-placeholder.svg" });
-    fetchData();
+    setWorkerPhotoPreview(null);
+    setWorkerForm({
+      firstName: "",
+      secondName: "",
+      firstLastName: "",
+      secondLastName: "",
+      role: "",
+      description: "",
+      photo: "/images/worker-placeholder.svg",
+    });
   };
 
   const handleProjectSubmit = async (e: React.FormEvent) => {
@@ -117,8 +245,14 @@ export default function DashboardPage() {
         body: JSON.stringify(projectForm),
       });
     }
+    resetProjectForm();
+    fetchData();
+  };
+
+  const resetProjectForm = () => {
     setShowProjectForm(false);
     setEditingProject(null);
+    setProjectImagePreview(null);
     setProjectForm({
       title: "",
       description: "",
@@ -126,7 +260,6 @@ export default function DashboardPage() {
       featured: false,
       images: ["/images/project-placeholder.svg"],
     });
-    fetchData();
   };
 
   const handleDeleteWorker = async (id: string) => {
@@ -154,12 +287,17 @@ export default function DashboardPage() {
 
   const startEditWorker = (worker: Worker) => {
     setEditingWorker(worker);
+    const parsed = parseWorkerName(worker.name);
     setWorkerForm({
-      name: worker.name,
+      firstName: parsed.firstName,
+      secondName: parsed.secondName,
+      firstLastName: parsed.firstLastName,
+      secondLastName: parsed.secondLastName,
       role: worker.role,
       description: worker.description,
       photo: worker.photo,
     });
+    setWorkerPhotoPreview(null);
     setShowWorkerForm(true);
   };
 
@@ -172,6 +310,7 @@ export default function DashboardPage() {
       featured: project.featured,
       images: project.images,
     });
+    setProjectImagePreview(null);
     setShowProjectForm(true);
   };
 
@@ -223,7 +362,16 @@ export default function DashboardPage() {
               <button
                 onClick={() => {
                   setEditingWorker(null);
-                  setWorkerForm({ name: "", role: "", description: "", photo: "/images/worker-placeholder.svg" });
+                  setWorkerForm({
+                    firstName: "",
+                    secondName: "",
+                    firstLastName: "",
+                    secondLastName: "",
+                    role: "",
+                    description: "",
+                    photo: "/images/worker-placeholder.svg",
+                  });
+                  setWorkerPhotoPreview(null);
                   setShowWorkerForm(true);
                 }}
                 className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
@@ -235,23 +383,110 @@ export default function DashboardPage() {
             {/* Worker Form Modal */}
             {showWorkerForm && (
               <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+                <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
                   <h3 className="text-xl font-bold text-[#1E3A5F] mb-4">
                     {editingWorker ? "Editar Trabajador" : "Agregar Trabajador"}
                   </h3>
                   <form onSubmit={handleWorkerSubmit} className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        Nombre *
-                      </label>
+                    {/* Photo Upload */}
+                    <div className="flex flex-col items-center">
+                      <div
+                        className="relative w-28 h-28 rounded-full overflow-hidden bg-gray-200 border-4 border-[#1E3A5F]/20 cursor-pointer group"
+                        onClick={() => workerPhotoRef.current?.click()}
+                      >
+                        <Image
+                          src={workerPhotoPreview || workerForm.photo}
+                          alt="Foto del trabajador"
+                          fill
+                          sizes="112px"
+                          className="object-cover"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Camera className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => workerPhotoRef.current?.click()}
+                        className="mt-2 text-sm text-[#1E3A5F] font-semibold flex items-center gap-1 hover:text-amber-500 transition-colors"
+                      >
+                        <Upload className="w-4 h-4" />
+                        {uploading ? "Subiendo..." : "Elegir Foto"}
+                      </button>
                       <input
-                        type="text"
-                        required
-                        value={workerForm.name}
-                        onChange={(e) => setWorkerForm({ ...workerForm, name: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        ref={workerPhotoRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleWorkerPhotoChange}
                       />
                     </div>
+
+                    {/* Name Fields - 2x2 grid */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">
+                          Primer Nombre *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Ej: Carlos"
+                          value={workerForm.firstName}
+                          onChange={(e) =>
+                            setWorkerForm({ ...workerForm, firstName: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">
+                          Segundo Nombre *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Ej: Alberto"
+                          value={workerForm.secondName}
+                          onChange={(e) =>
+                            setWorkerForm({ ...workerForm, secondName: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">
+                          Primer Apellido *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Ej: Mendoza"
+                          value={workerForm.firstLastName}
+                          onChange={(e) =>
+                            setWorkerForm({ ...workerForm, firstLastName: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-1">
+                          Segundo Apellido *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Ej: López"
+                          value={workerForm.secondLastName}
+                          onChange={(e) =>
+                            setWorkerForm({ ...workerForm, secondLastName: e.target.value })
+                          }
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                        />
+                      </div>
+                    </div>
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">
                         Cargo *
@@ -271,34 +506,23 @@ export default function DashboardPage() {
                       <textarea
                         rows={3}
                         value={workerForm.description}
-                        onChange={(e) => setWorkerForm({ ...workerForm, description: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        URL de Foto
-                      </label>
-                      <input
-                        type="text"
-                        value={workerForm.photo}
-                        onChange={(e) => setWorkerForm({ ...workerForm, photo: e.target.value })}
+                        onChange={(e) =>
+                          setWorkerForm({ ...workerForm, description: e.target.value })
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                     <div className="flex gap-3">
                       <button
                         type="submit"
-                        className="flex-1 py-2 bg-[#1E3A5F] text-white rounded-lg hover:bg-[#2563EB] transition-colors"
+                        disabled={uploading}
+                        className="flex-1 py-2 bg-[#1E3A5F] text-white rounded-lg hover:bg-[#2563EB] transition-colors disabled:opacity-50"
                       >
                         {editingWorker ? "Guardar Cambios" : "Agregar"}
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          setShowWorkerForm(false);
-                          setEditingWorker(null);
-                        }}
+                        onClick={resetWorkerForm}
                         className="flex-1 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
                       >
                         Cancelar
@@ -319,7 +543,14 @@ export default function DashboardPage() {
                   }`}
                 >
                   <div className="relative h-32 bg-gray-200">
-                    <Image src={worker.photo} alt={worker.name} fill className="object-cover" />
+                    <Image
+                      src={worker.photo}
+                      alt={worker.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                      unoptimized
+                    />
                     {worker.isOwner && (
                       <span className="absolute top-2 right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded">
                         Dueño
@@ -330,7 +561,8 @@ export default function DashboardPage() {
                     <h3 className="font-bold text-[#1E3A5F]">{worker.name}</h3>
                     <p className="text-amber-500 text-sm">{worker.role}</p>
                     <p className="text-gray-500 text-xs mt-1">
-                      Estado: {worker.active ? (
+                      Estado:{" "}
+                      {worker.active ? (
                         <span className="text-green-500">Activo</span>
                       ) : (
                         <span className="text-red-500">Inactivo</span>
@@ -347,7 +579,11 @@ export default function DashboardPage() {
                         onClick={() => handleToggleWorker(worker)}
                         className="flex-1 flex items-center justify-center gap-1 py-1 bg-yellow-100 text-yellow-600 rounded hover:bg-yellow-200 transition-colors text-sm"
                       >
-                        {worker.active ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                        {worker.active ? (
+                          <EyeOff className="w-3 h-3" />
+                        ) : (
+                          <Eye className="w-3 h-3" />
+                        )}
                         {worker.active ? "Desactivar" : "Activar"}
                       </button>
                       {!worker.isOwner && (
@@ -381,6 +617,7 @@ export default function DashboardPage() {
                     featured: false,
                     images: ["/images/project-placeholder.svg"],
                   });
+                  setProjectImagePreview(null);
                   setShowProjectForm(true);
                 }}
                 className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
@@ -405,7 +642,9 @@ export default function DashboardPage() {
                         type="text"
                         required
                         value={projectForm.title}
-                        onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
+                        onChange={(e) =>
+                          setProjectForm({ ...projectForm, title: e.target.value })
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -417,7 +656,9 @@ export default function DashboardPage() {
                         rows={3}
                         required
                         value={projectForm.description}
-                        onChange={(e) => setProjectForm({ ...projectForm, description: e.target.value })}
+                        onChange={(e) =>
+                          setProjectForm({ ...projectForm, description: e.target.value })
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
@@ -428,7 +669,9 @@ export default function DashboardPage() {
                       <select
                         required
                         value={projectForm.category}
-                        onChange={(e) => setProjectForm({ ...projectForm, category: e.target.value })}
+                        onChange={(e) =>
+                          setProjectForm({ ...projectForm, category: e.target.value })
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="">Seleccione una categoría</option>
@@ -438,19 +681,40 @@ export default function DashboardPage() {
                         <option value="Infraestructura">Infraestructura</option>
                       </select>
                     </div>
+
+                    {/* Image Upload */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
-                        URL de Imagen
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Imagen del Proyecto
                       </label>
+                      <div
+                        className="relative w-full h-40 rounded-xl overflow-hidden bg-gray-100 border-2 border-dashed border-gray-300 cursor-pointer group hover:border-[#1E3A5F] transition-colors"
+                        onClick={() => projectImageRef.current?.click()}
+                      >
+                        <Image
+                          src={projectImagePreview || projectForm.images[0]}
+                          alt="Imagen del proyecto"
+                          fill
+                          sizes="(max-width: 448px) 100vw, 448px"
+                          className="object-cover"
+                          unoptimized
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ImageIcon className="w-10 h-10 text-white mb-2" />
+                          <span className="text-white text-sm font-semibold">
+                            {uploading ? "Subiendo..." : "Elegir Imagen"}
+                          </span>
+                        </div>
+                      </div>
                       <input
-                        type="text"
-                        value={projectForm.images[0]}
-                        onChange={(e) =>
-                          setProjectForm({ ...projectForm, images: [e.target.value] })
-                        }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        ref={projectImageRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleProjectImageChange}
                       />
                     </div>
+
                     <div className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -468,16 +732,14 @@ export default function DashboardPage() {
                     <div className="flex gap-3">
                       <button
                         type="submit"
-                        className="flex-1 py-2 bg-[#1E3A5F] text-white rounded-lg hover:bg-[#2563EB] transition-colors"
+                        disabled={uploading}
+                        className="flex-1 py-2 bg-[#1E3A5F] text-white rounded-lg hover:bg-[#2563EB] transition-colors disabled:opacity-50"
                       >
                         {editingProject ? "Guardar Cambios" : "Agregar"}
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          setShowProjectForm(false);
-                          setEditingProject(null);
-                        }}
+                        onClick={resetProjectForm}
                         className="flex-1 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
                       >
                         Cancelar
@@ -497,7 +759,9 @@ export default function DashboardPage() {
                       src={project.images[0]}
                       alt={project.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover"
+                      unoptimized
                     />
                     {project.featured && (
                       <span className="absolute top-2 right-2 bg-amber-500 text-white text-xs px-2 py-1 rounded">

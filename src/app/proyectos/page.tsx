@@ -35,7 +35,9 @@ export default function ProyectosPage() {
                           src={project.images[0]}
                           alt={project.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover"
+                          unoptimized
                         />
                       </div>
                       <div className="p-6">

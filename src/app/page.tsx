@@ -38,7 +38,7 @@ export default function HomePage() {
     <div>
       <section id="inicio" className="relative min-h-[500px] bg-gradient-to-br from-[#0F172A] to-[#1E3A5F] flex items-center">
         <div className="absolute inset-0 opacity-40 flex items-center justify-center pointer-events-none overflow-hidden">
-          <Image src="/images/logo.png" alt="Fondo industrial" fill style={{ objectFit: "fill" }} unoptimized={true} />
+          <Image src="/images/logo.png" alt="Fondo industrial" fill sizes="100vw" style={{ objectFit: "fill" }} unoptimized={true} />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
@@ -145,7 +145,7 @@ export default function HomePage() {
             {products.map((product) => (
               <div key={product.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative h-48 bg-gray-100">
-                  <Image src={product.image} alt={product.name} fill className="object-cover" />
+                  <Image src={product.image} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" unoptimized />
                 </div>
                 <div className="p-6">
                   <span className="text-xs font-semibold text-amber-500 bg-amber-100 px-2 py-1 rounded">
@@ -174,7 +174,7 @@ export default function HomePage() {
             {featuredProjects.map((project) => (
               <div key={project.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <div className="relative h-48 bg-gray-200">
-                  <Image src={project.images[0]} alt={project.title} fill className="object-cover" />
+                  <Image src={project.images[0]} alt={project.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover" unoptimized />
                 </div>
                 <div className="p-6">
                   <span className="text-xs font-semibold text-amber-500 bg-amber-100 px-2 py-1 rounded">
@@ -203,7 +203,7 @@ export default function HomePage() {
             {activeWorkers.map((worker) => (
               <div key={worker.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div className="relative h-52 bg-gray-100">
-                  <Image src={worker.photo} alt={worker.name} fill className="object-cover" />
+                  <Image src={worker.photo} alt={worker.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover" unoptimized />
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold text-[#1E3A5F]">{worker.name}</h3>
