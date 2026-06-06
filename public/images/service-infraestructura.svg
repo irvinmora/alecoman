@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A"/>
+      <stop offset="100%" style="stop-color:#1E3A5F"/>
+    </linearGradient>
+    <linearGradient id="concrete4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D1D5DB"/>
+      <stop offset="100%" style="stop-color:#9CA3AF"/>
+    </linearGradient>
+    <linearGradient id="steel4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E5E7EB"/>
+      <stop offset="50%" style="stop-color:#6B7280"/>
+      <stop offset="100%" style="stop-color:#374151"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bg4)"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="300" width="600" height="100" fill="#374151"/>
+  
+  <!-- Main building -->
+  <g transform="translate(150, 80)">
+    <!-- Structure -->
+    <rect x="0" y="100" width="300" height="120" fill="url(#concrete4)"/>
+    <rect x="10" y="110" width="280" height="100" fill="#E5E7EB"/>
+    
+    <!-- Roof structure -->
+    <rect x="-20" y="80" width="340" height="25" fill="url(#steel4)"/>
+    <polygon points="0,80 150,40 300,80" fill="#4B5563"/>
+    
+    <!-- Windows -->
+    <rect x="30" y="130" width="50" height="40" fill="#60A5FA" rx="2" opacity="0.6"/>
+    <rect x="125" y="130" width="50" height="40" fill="#60A5FA" rx="2" opacity="0.6"/>
+    <rect x="220" y="130" width="50" height="40" fill="#60A5FA" rx="2" opacity="0.6"/>
+    
+    <!-- Door -->
+    <rect x="120" y="170" width="60" height="50" fill="#374151" rx="4"/>
+    
+    <!-- Pipe system -->
+    <rect x="320" y="120" width="80" height="12" fill="#6B7280" rx="3"/>
+    <rect x="320" y="160" width="80" height="12" fill="#6B7280" rx="3"/>
+    <rect x="395" y="120" width="12" height="52" fill="#6B7280" rx="3"/>
+    
+    <!-- Tank -->
+    <ellipse cx="430" cy="160" rx="25" ry="50" fill="url(#steel4)" stroke="#9CA3AF" stroke-width="2"/>
+    <ellipse cx="430" cy="110" rx="25" ry="10" fill="#6B7280"/>
+  </g>
+  
+  <!-- Crane -->
+  <g transform="translate(80, 60)">
+    <rect x="0" y="0" width="8" height="240" fill="#F59E0B"/>
+    <rect x="0" y="0" width="100" height="8" fill="#F59E0B"/>
+    <line x1="95" y1="8" x2="95" y2="80" stroke="#6B7280" stroke-width="2"/>
+    <rect x="85" y="80" width="20" height="15" fill="#374151"/>
+  </g>
+  
+  <!-- Workers silhouettes -->
+  <g fill="#374151">
+    <circle cx="180" cy="280" r="8"/>
+    <rect x="175" y="288" width="10" height="20" rx="2"/>
+    <circle cx="220" cy="282" r="8"/>
+    <rect x="215" y="290" width="10" height="18" rx="2"/>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="370" font-family="Arial, sans-serif" font-size="18" fill="#F59E0B" text-anchor="middle" font-weight="bold">INFRAESTRUCTURA INDUSTRIAL</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bgProd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F172A"/>
+      <stop offset="100%" style="stop-color:#1E3A5F"/>
+    </linearGradient>
+    <linearGradient id="steelProd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E5E7EB"/>
+      <stop offset="50%" style="stop-color:#9CA3AF"/>
+      <stop offset="100%" style="stop-color:#4B5563"/>
+    </linearGradient>
+    <linearGradient id="accentProd" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F59E0B"/>
+      <stop offset="100%" style="stop-color:#D97706"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bgProd)"/>
+  
+  <!-- Spotlight effect -->
+  <ellipse cx="300" cy="350" rx="200" ry="30" fill="#F59E0B" opacity="0.1"/>
+  
+  <!-- Machine -->
+  <g transform="translate(150, 80)">
+    <!-- Base -->
+    <rect x="0" y="200" width="300" height="40" fill="#374151" rx="8"/>
+    <rect x="20" y="240" width="260" height="20" fill="#1F2937" rx="4"/>
+    
+    <!-- Main body -->
+    <rect x="30" y="60" width="240" height="140" fill="url(#steelProd)" rx="8"/>
+    <rect x="40" y="70" width="220" height="120" fill="#374151" rx="4"/>
+    
+    <!-- Hopper -->
+    <polygon points="100,60 200,60 180,20 120,20" fill="#4B5563" stroke="#6B7280" stroke-width="2"/>
+    
+    <!-- Processing window -->
+    <rect x="60" y="90" width="80" height="60" fill="#1F2937" rx="4"/>
+    <circle cx="100" cy="120" r="25" fill="#374151" stroke="#F59E0B" stroke-width="3"/>
+    <circle cx="100" cy="120" r="12" fill="#F59E0B"/>
+    
+    <!-- Output -->
+    <rect x="160" y="100" width="80" height="40" fill="#4B5563" rx="4"/>
+    <rect x="180" y="110" width="40" height="20" fill="#374151" rx="2"/>
+    
+    <!-- Control panel -->
+    <rect x="200" y="80" width="50" height="70" fill="#111827" rx="4"/>
+    <circle cx="215" cy="95" r="6" fill="#10B981"/>
+    <circle cx="235" cy="95" r="6" fill="#EF4444"/>
+    <rect x="210" y="110" width="30" height="5" fill="#374151" rx="2"/>
+    <rect x="210" y="120" width="30" height="5" fill="#374151" rx="2"/>
+    <rect x="210" y="130" width="30" height="5" fill="#374151" rx="2"/>
+    
+    <!-- Pipes -->
+    <rect x="270" y="100" width="40" height="12" fill="#6B7280" rx="3"/>
+    <rect x="270" y="140" width="40" height="12" fill="#6B7280" rx="3"/>
+  </g>
+  
+  <!-- Rice grains -->
+  <g fill="#FEF3C7">
+    <ellipse cx="380" cy="300" rx="6" ry="3" transform="rotate(-30 380 300)"/>
+    <ellipse cx="400" cy="310" rx="6" ry="3" transform="rotate(20 400 310)"/>
+    <ellipse cx="390" cy="320" rx="6" ry="3" transform="rotate(-15 390 320)"/>
+  </g>
+  
+  <!-- Label -->
+  <rect x="150" y="340" width="300" height="35" fill="#1E3A5F" rx="8" opacity="0.9"/>
+  <text x="300" y="363" font-family="Arial, sans-serif" font-size="14" fill="#F59E0B" text-anchor="middle" font-weight="bold">EQUIPO INDUSTRIAL DE ALTA CALIDAD</text>
+</svg>

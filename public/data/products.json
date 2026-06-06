@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "name": "Piladora de Arroz Industrial",
+    "description": "Piladora de arroz de alta capacidad para procesamiento industrial.",
+    "image": "/images/piladora_arroz.png",
+    "category": "Piladoras"
+  },
+  {
+    "id": "2",
+    "name": "Secadora de Arroz Torre",
+    "description": "Secadora de arroz tipo torre con sistema de aire forzado.",
+    "image": "/images/secadora_arroz.png",
+    "category": "Secadoras"
+  },
+  {
+    "id": "3",
+    "name": "Elevador de Cangilones",
+    "description": "Elevador de cangilones para transporte de granos.",
+    "image": "/images/piladora_arroz.png",
+    "category": "Piladoras"
+  },
+  {
+    "id": "4",
+    "name": "Clasificador de Granos",
+    "description": "Clasificador vibratorio para separación de granos.",
+    "image": "/images/piladora_arroz.png",
+    "category": "Piladoras"
+  },
+  {
+    "id": "5",
+    "name": "Galpón Metálico Industrial",
+    "description": "Estructura de galpón metálico personalizable según necesidades.",
+    "image": "/images/galpon_industrial.png",
+    "category": "Galpones"
+  },
+  {
+    "id": "6",
+    "name": "Tolva de Almacenamiento",
+    "description": "Tolva de almacenamiento de granos con sistema de descarga.",
+    "image": "/images/piladora_arroz.png",
+    "category": "Piladoras"
+  }
+]

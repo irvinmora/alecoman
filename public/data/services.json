@@ -1,0 +1,44 @@
+[
+  {
+    "id": "1",
+    "title": "Mantenimiento de Piladoras",
+    "description": "Servicio completo de mantenimiento preventivo y correctivo de piladoras de arroz. Incluye revisión de rodamientos, correas, alineación de ejes y calibración.",
+    "icon": "Settings",
+    "image": "/images/piladora_arroz.png"
+  },
+  {
+    "id": "2",
+    "title": "Construcción de Galpones",
+    "description": "Diseño y construcción de galpones industriales y agrícolas con estructura metálica de alta resistencia.",
+    "icon": "Warehouse",
+    "image": "/images/galpon_industrial.png"
+  },
+  {
+    "id": "3",
+    "title": "Secadoras de Arroz",
+    "description": "Fabricación e instalación de secadoras de arroz industriales con capacidad personalizada.",
+    "icon": "Thermometer",
+    "image": "/images/secadora_arroz.png"
+  },
+  {
+    "id": "4",
+    "title": "Infraestructura Industrial",
+    "description": "Diseño y construcción de infraestructura industrial completa, incluyendo plantas de procesamiento.",
+    "icon": "Building2",
+    "image": "/images/galpon_industrial.png"
+  },
+  {
+    "id": "5",
+    "title": "Diseño de Piladoras",
+    "description": "Diseño personalizado de piladoras de arroz según las necesidades específicas del cliente.",
+    "icon": "PenTool",
+    "image": "/images/diseno_industrial.png"
+  },
+  {
+    "id": "6",
+    "title": "Soldadura Industrial",
+    "description": "Servicios de soldadura profesional para estructuras metálicas, reparaciones y fabricación.",
+    "icon": "Flame",
+    "image": "/images/soldadura_industrial.png"
+  }
+]

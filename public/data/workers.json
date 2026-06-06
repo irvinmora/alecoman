@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "name": "Carlos Mendoza",
+    "role": "Director General / Propietario",
+    "photo": "/images/worker-director.svg",
+    "description": "Fundador y director de Alecoman con más de 20 años de experiencia en el sector industrial. Especialista en diseño y mantenimiento de piladoras.",
+    "active": true,
+    "isOwner": true
+  },
+  {
+    "id": "2",
+    "name": "Miguel Torres",
+    "role": "Jefe de Taller",
+    "photo": "/images/worker-trabajador.svg",
+    "description": "Encargado principal del taller, experto en soldadura industrial y fabricación de estructuras metálicas.",
+    "active": true,
+    "isOwner": false
+  },
+  {
+    "id": "3",
+    "name": "Andrés Castillo",
+    "role": "Técnico en Mantenimiento",
+    "photo": "/images/worker-trabajador.svg",
+    "description": "Especialista en mantenimiento preventivo y correctivo de maquinaria industrial y piladoras.",
+    "active": true,
+    "isOwner": false
+  },
+  {
+    "id": "4",
+    "name": "Roberto Sánchez",
+    "role": "Diseñador Industrial",
+    "photo": "/images/worker-trabajador.svg",
+    "description": "Ingeniero mecánico encargado del diseño y planificación de proyectos de infraestructura industrial.",
+    "active": true,
+    "isOwner": false
+  },
+  {
+    "id": "5",
+    "name": "Luis Peña",
+    "role": "Soldador Certificado",
+    "photo": "/images/worker-trabajador.svg",
+    "description": "Soldador certificado con experiencia en estructuras de galpones y secadoras de arroz.",
+    "active": true,
+    "isOwner": false
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "title": "Galpon Industrial - Empresa Agroindustrial",
+    "description": "Construcción de galpón industrial de 2000m² para empresa agroindustrial, incluyendo estructura metálica, cubierta y acabados.",
+    "images": ["/images/galpon_industrial.png"],
+    "category": "Galpones",
+    "date": "2024-01-15",
+    "featured": true
+  },
+  {
+    "id": "2",
+    "title": "Secadora de Arroz Industrial",
+    "description": "Diseño y fabricación de secadora de arroz con capacidad de 50 toneladas diarias, incluyendo sistema de ventilación y control de temperatura.",
+    "images": ["/images/secadora_arroz.png"],
+    "category": "Secadoras",
+    "date": "2024-03-20",
+    "featured": true
+  },
+  {
+    "id": "3",
+    "title": "Mantenimiento de Piladora Premium",
+    "description": "Mantenimiento completo de piladora de arroz incluyendo reparación de rodamientos, alineación de ejes y calibración.",
+    "images": ["/images/piladora_arroz.png"],
+    "category": "Piladoras",
+    "date": "2024-05-10",
+    "featured": true
+  },
+  {
+    "id": "4",
+    "title": "Planta de Procesamiento",
+    "description": "Diseño e instalación de infraestructura completa para planta de procesamiento de arroz.",
+    "images": ["/images/piladora_arroz.png"],
+    "category": "Infraestructura",
+    "date": "2024-07-05",
+    "featured": false
+  },
+  {
+    "id": "5",
+    "title": "Galpones Agrícolas - Lote 3",
+    "description": "Construcción de 5 galpones agrícolas para almacenamiento de productos agrícolas.",
+    "images": ["/images/galpon_industrial.png"],
+    "category": "Galpones",
+    "date": "2024-09-12",
+    "featured": false
+  },
+  {
+    "id": "6",
+    "title": "Diseño de Piladora Personalizada",
+    "description": "Diseño personalizado de piladora de arroz según especificaciones del cliente, con capacidad de 30 toneladas diarias.",
+    "images": ["/images/piladora_arroz.png"],
+    "category": "Piladoras",
+    "date": "2024-11-01",
+    "featured": true
+  }
+]
