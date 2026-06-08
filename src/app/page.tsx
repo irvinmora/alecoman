@@ -38,7 +38,7 @@ export default function HomePage() {
     <div>
       <section id="inicio" className="relative min-h-[500px] bg-gradient-to-br from-[#0F172A] to-[#1E3A5F] flex items-center">
         <div className="absolute inset-0 opacity-40 flex items-center justify-center pointer-events-none overflow-hidden">
-          <Image src="/images/logo.png" alt="Fondo industrial" fill sizes="100vw" style={{ objectFit: "fill" }} unoptimized={true} />
+          <Image src="/images/logo.png" alt="Fondo industrial" fill sizes="100vw" style={{ objectFit: "fill" }} unoptimized={true} loading="eager" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
@@ -57,13 +57,13 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/cotizacion"
+                href="#cotizacion"
                 className="px-8 py-3 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition-colors flex items-center gap-2"
               >
                 Solicitar Cotización <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/servicios"
+                href="#servicios"
                 className="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1E3A5F] transition-colors"
               >
                 Nuestros Servicios

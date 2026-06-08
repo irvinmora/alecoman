@@ -79,7 +79,13 @@ export default function DashboardPage() {
       router.push("/login");
       return;
     }
-    fetchData();
+    async function loadData() {
+      const workersRes = await fetch("/api/workers");
+      const projectsRes = await fetch("/api/projects");
+      if (workersRes.ok) setWorkers(await workersRes.json());
+      if (projectsRes.ok) setProjects(await projectsRes.json());
+    }
+    loadData();
   }, [router]);
 
   const fetchData = async () => {

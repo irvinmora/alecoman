@@ -4,7 +4,6 @@ import { validateCredentials } from "@/lib/auth";
 export async function POST(request: Request) {
   const body = await request.json();
   const { username, password } = body;
-  console.log("DEBUG AUTH - Received username:", username, "password:", password);
 
   if (validateCredentials(username, password)) {
     return NextResponse.json({ success: true });

@@ -20,15 +20,12 @@ export function Navbar() {
               <Image
                 src="/images/logo.png"
                 alt="Alecoman Industrial"
-                width={280}
-                height={100}
                 width={300}
                 height={96}
                 priority
                 unoptimized={true}
-                style={{ height: "96px", width: "auto" }}
                 className="object-contain"
-                style={{ height: "95px", width: "140px", objectFit: "fill" }}
+                style={{ height: "95px", width: "auto" }}
               />
             </Link>
 
